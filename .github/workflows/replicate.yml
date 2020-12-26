@@ -1,0 +1,31 @@
+---
+
+name: Sync fork
+on:
+  workflow_dispatch:
+  schedule: [cron: '0 0 * * *']
+jobs:
+  sync:
+    name: 🔄
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { repo: SDL, upstream: SDL-mirror/SDL }
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          repository: alpha-scorpii-b/${{ matrix.repo }}
+          token: ${{ secrets.SYNC_TOKEN }}
+      - name: Sync
+        run: |
+          git remote add upstream https://github.com/${{ matrix.upstream }}
+          git fetch upstream
+          git merge upstream/master
+          git push
+
+...
+
+# vi: set ts=2 sw=2 expandtab:
