@@ -12,7 +12,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { repo: SDL, upstream: SDL-mirror/SDL }
+          - { repo: SDL, upstream: libsdl-org/SDL, branch: main }
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -23,7 +23,7 @@ jobs:
         run: |
           git remote add upstream https://github.com/${{ matrix.upstream }}
           git fetch upstream
-          git merge upstream/master
+          git merge upstream/${{ matrix.branch }}
           git push
 
 ...
