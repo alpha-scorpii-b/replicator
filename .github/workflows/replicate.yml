@@ -22,9 +22,9 @@ jobs:
       - name: Sync
         run: |
           git remote add upstream https://github.com/${{ matrix.upstream }}
-          git fetch upstream
+          git fetch --tags upstream
           git merge upstream/${{ matrix.branch }}
-          git push
+          git push --atomic --tags origin main
 
 ...
 
